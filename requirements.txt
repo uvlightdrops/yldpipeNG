@@ -1,0 +1,6 @@
+### yldpipeNG requirements
+validators
+pykeepass
+xlsxwriter
+
+

@@ -1,0 +1,13 @@
+validators
+xlsxwriter
+openpyxl
+pandas
+pymysql
+pykeepass
+anytree
+yamale
+schema
+pyspark
+koheesio
+sqlalchemy
+
