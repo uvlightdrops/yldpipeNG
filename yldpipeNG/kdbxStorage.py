@@ -38,6 +38,8 @@ class KdbxStorage(AnytreeStorage, PyKeePass):
         AnytreeStorage.__init__(self)
         self._args = args
         self._kwargs = kwargs.copy()
+        # for storageResourceTask
+        self.type = 'kdbx'
         kwargs.pop('pw', None)
         #logger.debug('KdbxStorage init, args: %s, kwargs: %s', args, kwargs)
         #if 'filename' in kwargs:
