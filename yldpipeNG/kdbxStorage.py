@@ -7,8 +7,17 @@ import random, string
 from flowpy.utils import setup_logger
 from yldpipeNG.anytreeStorage import CustomNode
 import pandas as pd
-logger = setup_logger(__name__, __name__+'.log', level=logging.DEBUG)
 from pykeepass import PyKeePass
+
+logger = setup_logger(__name__, __name__+'.log', level=logging.DEBUG)
+
+_pk_logger = logging.getLogger('pykeepass')    # PyKeePass benutzt logging.getLogger(__name__) intern
+# Übernehme die Handler/Level deines Moduls, so erscheinen lib-Logs in deinen Files
+for h in logger.handlers:
+    _pk_logger.addHandler(h)
+_pk_logger.setLevel(logger.level)
+_pk_logger.propagate = False  # True würde zusätzlich an Root weiterreichen -> Duplikate möglich
+
 
 class keepassNode(CustomNode):
     # subnodes in anytree are called children
@@ -30,21 +39,27 @@ class KdbxStorage(AnytreeStorage, PyKeePass):
         self._args = args
         self._kwargs = kwargs.copy()
         kwargs.pop('pw', None)
-        logger.debug('KdbxStorage init, args: %s, kwargs: %s', args, kwargs)
+        #logger.debug('KdbxStorage init, args: %s, kwargs: %s', args, kwargs)
         #if 'filename' in kwargs:
         #    self.filename = kwargs['filename']
 
     def do_save(self):
         logger.debug('saving to %s', self.db_path_abs)
-        PyKeePass.save(self, filename=self.db_path_abs)
+        #PyKeePass.save(self, filename=self.db_path_abs)
+        self.db_path_abs.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            PyKeePass.save(self, filename=self.db_path_abs)
+            logger.info("Saved kdbx to %s", self.db_path_abs)
+        except Exception:
+            logger.exception("PyKeePass.save failed for %s", self.db_path_abs)
+            raise
 
     # should get absolute path
     def set_src(self, db_path):
         self.db_path_abs = db_path
-        filename = db_path.name
-        logger.debug('filename: %s', filename)
-        password = self._kwargs.get('pw', None)
+        #filename = db_path.name
         logger.debug('db_path: %s', db_path)
+        password = self._kwargs.get('pw', None)
         PyKeePass.__init__(self, self.db_path_abs, password=password)
         #logger.debug('type: %s', self.src_or_dst)
         #logger.debug('groups: %s', self.groups)
