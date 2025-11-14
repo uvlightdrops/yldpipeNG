@@ -58,31 +58,3 @@ class TreeReorderBuilderBase:
         self.progress_table_output_drop_fields = self.cfg_kp_process_fields['progress_table_output_drop_fields']
         lg.info('### Writing to excel ###')
         self.generic_write_all()
-
-
-    def open_excel_files(self):
-        # Open the Excel application
-        import platform
-        if platform.uname().system == 'Windows':
-            try:
-                import win32com.client
-            except:
-                logger.error('Error: win32com.client not found. Please install pywin32')
-                return
-
-        lg.debug('Opening Excel application')
-        try:
-            #excel = win32com.client.Dispatch("Excel.Application")
-            #excel.Visible = True
-            lg.info("Excel application opened successfully.")
-            success = True
-        except Exception as e:
-            success = False
-            lg.error('Error: %s', e)
-
-        if success:
-            pass
-            #sleep(1)
-            #for key in self.cfg_kp_process_fields['xlsx_framedumps']:
-            #    outfile = data_out.joinpath(self.sub, 'out_' + key + '.xlsx')
-            #    workbook = excel.Workbooks.Open(outfile)

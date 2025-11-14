@@ -28,6 +28,7 @@ class StorageBroker:
             'jsonStorage': JsonStorage,
             'firefox_bookmarksStorage': FirefoxBookmarksStorage,
             'kdbxStorage': KdbxStorage,
+            # XXX move to dataBroker?
             'dbReader': DbReader,
         }
         # We dont need to pass on type, it is not of use anymore
