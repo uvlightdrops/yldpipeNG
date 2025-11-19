@@ -1,0 +1,15 @@
+# Beispiel für spaCy EntityRuler Patterns als YAML
+# Begriffe und Variationen aus deiner Domäne (kritikalität, behörde, app, item, hostname)
+
+patterns:
+  - label: "CRIT"
+    pattern: ["kritisch", "hoch", "niedrig", "unwichtig", "kritikalität"]
+  - label: "BEHOERDE"
+    pattern: ["Landratsamt", "Stadtverwaltung", "Behoerde", "Amt", "Ministerium"]
+  - label: "APP"
+    pattern: ["SAP", "Exchange", "Outlook", "Teams", "App"]
+  - label: "ITEM"
+    pattern: ["Server", "Client", "Workstation", "Notebook", "item"]
+  - label: "HOSTNAME"
+    pattern: ["host[0-9]+", "srv[0-9]+", "hostname"]
+
